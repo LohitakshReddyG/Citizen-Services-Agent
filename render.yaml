@@ -1,0 +1,18 @@
+# Render Blueprint: deploy Seva Mitra as a free web service.
+# After deploying, set the Twilio sandbox/number webhook to:
+#   https://<your-service>.onrender.com/webhook   (HTTP POST)
+services:
+  - type: web
+    name: seva-mitra
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python seva_mitra_twilio.py
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.4"
+      # Optional - set these in the Render dashboard after deploy:
+      # TWILIO_ACCOUNT_SID  - enables outbound sends (proactive updates)
+      # TWILIO_AUTH_TOKEN   - enables webhook signature validation
+      # TWILIO_WHATSAPP_FROM - your production WhatsApp sender
